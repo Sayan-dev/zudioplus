@@ -11,6 +11,7 @@ const CartRoot = () => {
   const cartDetails = useAppSelector((state: RootState) => state.cart);
   const dispatch = useAppDispatch();
   const removeHandler = (itemId: string) => {
+    // New Build
     dispatch(removeItem(itemId));
   };
 

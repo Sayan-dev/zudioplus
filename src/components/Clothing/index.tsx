@@ -1,6 +1,6 @@
 import { Box, Paper, SimpleGrid } from '@mantine/core';
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useAnimate } from 'framer-motion';
 import { useProducts } from '../../api/queries/product.queries';

@@ -1,9 +1,9 @@
-import { Box, Button, Drawer, Text } from '@mantine/core';
+import { Box, Drawer, Text } from '@mantine/core';
 import { IconHome } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { motion, useAnimate } from 'framer-motion';
+import { useAnimate } from 'framer-motion';
 
 type SideBarProps = {
   open: boolean;
@@ -13,7 +13,7 @@ type SideBarProps = {
 
 const SideBar = ({ open, onClose, navLinks }: SideBarProps) => {
   const refs = useRef(navLinks.map(() => React.createRef<HTMLDivElement>()));
-  const [scope, animate] = useAnimate();
+  const [, animate] = useAnimate();
   const [trigger, setTrigger] = useState(open);
 
   useEffect(() => {

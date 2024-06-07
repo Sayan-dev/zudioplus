@@ -3,15 +3,25 @@ import { IconArrowBack, IconTrash } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react';
 
+import { useAnimate } from 'framer-motion';
 import { removeItem } from '../../redux/features/cartSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 
 const CartRoot = () => {
+  const [scope, animate] = useAnimate();
   const cartDetails = useAppSelector((state: RootState) => state.cart);
   const dispatch = useAppDispatch();
-  const removeHandler = (itemId: string) => {
+  const removeHandler = async (itemId: string) => {
     // New Build
+    await animate(
+      scope.current,
+      {
+        opacity: [1, 0],
+        x: [0, -20],
+      },
+      { duration: 0.3, ease: 'easeOut' },
+    );
     dispatch(removeItem(itemId));
   };
 
@@ -60,7 +70,7 @@ const CartRoot = () => {
       <Box className="border-b-[1px] border-light-grey">
         {cartDetails.items.length > 0 ? (
           cartDetails.items.map(details => (
-            <Box key={details._id} className="flex flex-row mb-5">
+            <Box ref={scope} key={details._id} className="flex flex-row mb-5">
               <Box className="w-[30vw] mr-5">
                 <Image src={details.image_url} alt="Image" />
               </Box>

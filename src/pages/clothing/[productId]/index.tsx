@@ -1,8 +1,9 @@
 import { Box, Grid } from '@mantine/core';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { useAnimate } from 'framer-motion';
 import { useProduct } from '../../../api/queries/product.queries';
 import DetailImages from '../../../components/Clothing/DetailImages';
 import Details from '../../../components/Clothing/Details';
@@ -11,7 +12,14 @@ import AppWrapper from '../../../components/layouts/AppWrapper';
 import { NextPageWithLayout } from '../../../types';
 
 const ProductDetails: NextPageWithLayout<PageProps> = ({ query }) => {
+  const [scope, animate] = useAnimate();
   const product = useProduct(query);
+  useEffect(() => {
+    if (product.data && product.data.image_url) {
+      animate(scope.current, { opacity: [0, 1], y: [20, 0] }, { duration: 0.5, ease: 'easeIn' });
+    }
+  }, [product.data]);
+
   return (
     <div>
       <Head>
@@ -23,7 +31,9 @@ const ProductDetails: NextPageWithLayout<PageProps> = ({ query }) => {
           <>
             <Grid>
               <Grid.Col span={{ xs: 12, md: 7 }}>
-                {product.data.image_url && <DetailImages url={product.data.image_url} />}
+                <Box ref={scope}>
+                  {product.data.image_url && <DetailImages url={product.data.image_url} />}
+                </Box>
               </Grid.Col>
               <Grid.Col span={{ xs: 12, md: 5 }}>
                 <Details details={product.data} />

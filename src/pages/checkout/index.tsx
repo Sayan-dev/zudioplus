@@ -1,4 +1,4 @@
-import { Box, Button, Stepper, Text, rem } from '@mantine/core';
+import { Box, Button, CheckIcon, Radio, Stepper, Text, rem } from '@mantine/core';
 import { IconUserCheck, IconMailOpened } from '@tabler/icons-react';
 import React, { useState } from 'react';
 
@@ -7,6 +7,7 @@ import { NextPageWithLayout } from '../../types';
 
 const CheckoutPage: NextPageWithLayout = () => {
   const [active, setActive] = useState(0);
+  const [paymentType, setPaymentType] = useState('COD');
 
   return (
     <Box>
@@ -94,6 +95,44 @@ const CheckoutPage: NextPageWithLayout = () => {
                   <Text>Payment Method</Text>
                 </Box>
               </Box>
+            </Box>
+            <Box>
+              <Radio
+                icon={CheckIcon}
+                color="dark"
+                name="COD"
+                value="COD"
+                onChange={() => setPaymentType('COD')}
+                className="border-b-[1px] border-dark-grey "
+                checked={paymentType === 'COD'}
+                label={
+                  <Box className="flex flex-row justify-between">
+                    <Box className="flex flex-col">
+                      <Text>Cash on Delivery</Text>
+                    </Box>
+                  </Box>
+                }
+              />
+              <Radio
+                color="dark"
+                name="Razorpay"
+                checked={paymentType === 'Razorpay'}
+                icon={CheckIcon}
+                value="Razorpay"
+                onChange={() => setPaymentType('Razorpay')}
+                label={
+                  <Box className="flex flex-row justify-between">
+                    <Box className="flex flex-col">
+                      <Text>Payment Method</Text>
+                    </Box>
+                  </Box>
+                }
+              />
+            </Box>
+            <Box>
+              <Button fullWidth color="dark" className="h-auto p-4">
+                Continue
+              </Button>
             </Box>
           </Box>
         </Stepper.Step>

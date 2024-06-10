@@ -6,6 +6,8 @@ const CONST_VALUE: Record<string, Record<string, string | string[]>> = {
     landing: 'Landing | Zudio+',
     clothing: 'Clothings | Zudio+',
     cart: 'Clothings | Zudio+',
+
+    orders: 'Orders | Zudio+',
   },
 
   environment: {

@@ -70,3 +70,5 @@ export interface IDetailText {
   color: string;
   feel: string;
 }
+
+export interface OrderRequest {}

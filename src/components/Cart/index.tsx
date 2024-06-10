@@ -1,7 +1,14 @@
 import { Accordion, Box, Button, Image, Text } from '@mantine/core';
-import { IconArrowBack, IconMinus, IconPlus, IconReload, IconTrash } from '@tabler/icons-react';
+import {
+  IconArrowBack,
+  IconCheck,
+  IconMinus,
+  IconPlus,
+  IconReload,
+  IconTrash,
+} from '@tabler/icons-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useAnimate } from 'framer-motion';
@@ -11,6 +18,9 @@ import { RootState } from '../../redux/store';
 
 const CartRoot = () => {
   const [scope, animate] = useAnimate();
+  const [iconScope, iconAnimate] = useAnimate();
+  const [buttonScope, buttonScopeAnimate] = useAnimate();
+  const [showIcon, setShowIcon] = useState(false);
   const cartDetails = useAppSelector((state: RootState) => state.cart);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -27,43 +37,62 @@ const CartRoot = () => {
     dispatch(removeItem(itemId));
   };
 
-  const gotoCart = () => {
+  const gotoCart = async () => {
+    setShowIcon(true);
+    await buttonScopeAnimate(
+      buttonScope.current,
+      {
+        width: '2.75rem',
+        padding: 0,
+        borderRadius: '2.75rem',
+      },
+      { duration: 0.6, ease: 'easeInOut' },
+    );
     router.push('/checkout');
   };
 
   return (
     <Box>
       <Text className="text-2xl font-semibold mb-6">Your Shopping Bag</Text>
-      <Box className="border-2 border-dark-grey px-4 py-5 mb-8">
-        <Box className="py-2 border-b-2 border-light">
-          <Text className="text-md font-semibold ">Summary</Text>
+      <Box className="flex border-2 border-dark-grey px-4 py-5 mb-8 justify-center  flex-col items-center">
+        <Box className="w-full">
+          <Box className="py-2 border-b-2 border-light">
+            <Text className="text-md font-semibold ">Summary</Text>
+          </Box>
+          <Accordion unstyled defaultValue="Tax">
+            <Accordion.Item value="Tax">
+              <Accordion.Control className="border-b-2 border-light flex items-center w-full flex-row-reverse justify-between py-5 font-light">
+                <Text className="text-md">Estimate Shipping and Tax</Text>
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Box className="flex flex-col py-4">
+                  <Box className="flex justify-between">
+                    <Text className="text-sm font-medium text-dark-grey">Subtotal: </Text>
+                    <Text className="text-sm font-medium text-dark-grey">$ 300.00 </Text>
+                  </Box>
+                  <Box className="flex justify-between mt-2">
+                    <Text className="text-sm font-medium text-dark-grey">Shipping Price:</Text>
+                    <Text className="text-sm font-medium text-dark-grey">$ 0.00</Text>
+                  </Box>
+                  <Box className="flex justify-between py-2 mt-4 border-b-2">
+                    <Text className="text-sm font-medium text-dark-grey">Order Total:</Text>
+                    <Text className="text-lg font-semibold ">$ 156.00</Text>
+                  </Box>
+                </Box>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
         </Box>
-        <Accordion unstyled defaultValue="Tax">
-          <Accordion.Item value="Tax">
-            <Accordion.Control className="border-b-2 border-light flex items-center w-full flex-row-reverse justify-between py-5 font-light">
-              <Text className="text-md">Estimate Shipping and Tax</Text>
-            </Accordion.Control>
-            <Accordion.Panel>
-              <Box className="flex flex-col py-4">
-                <Box className="flex justify-between">
-                  <Text className="text-sm font-medium text-dark-grey">Subtotal: </Text>
-                  <Text className="text-sm font-medium text-dark-grey">$ 300.00 </Text>
-                </Box>
-                <Box className="flex justify-between mt-2">
-                  <Text className="text-sm font-medium text-dark-grey">Shipping Price:</Text>
-                  <Text className="text-sm font-medium text-dark-grey">$ 0.00</Text>
-                </Box>
-                <Box className="flex justify-between py-2 mt-4 border-b-2">
-                  <Text className="text-sm font-medium text-dark-grey">Order Total:</Text>
-                  <Text className="text-lg font-semibold ">$ 156.00</Text>
-                </Box>
-              </Box>
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
 
-        <Button onClick={gotoCart} fullWidth variant="filled" color="dark" className="p-4 h-auto">
-          Proceed to Checkout
+        <Button
+          ref={buttonScope}
+          onClick={gotoCart}
+          fullWidth
+          variant="filled"
+          color="dark"
+          className="p-4 h-11"
+        >
+          {showIcon ? <IconCheck height={24} /> : <Text>Proceed to Checkout</Text>}
         </Button>
       </Box>
       <Box className="border-b-[1px] border-dark-grey">

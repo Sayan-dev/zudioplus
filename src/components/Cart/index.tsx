@@ -12,7 +12,8 @@ import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useAnimate } from 'framer-motion';
-import { removeItem } from '../../redux/features/cartSlice';
+import { IProduct } from 'src/types';
+import { addQuantity, reduceQuantity, removeItem } from '../../redux/features/cartSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 
@@ -24,7 +25,13 @@ const CartRoot = () => {
   const cartDetails = useAppSelector((state: RootState) => state.cart);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const removeHandler = async (itemId: string) => {
+  const handleAddItem = (item: IProduct) => {
+    dispatch(addQuantity(item));
+  };
+  const handleSubItem = (item: IProduct) => {
+    dispatch(reduceQuantity(item));
+  };
+  const removeHandler = async (item: IProduct) => {
     // New Build
     await animate(
       scope.current,
@@ -34,7 +41,7 @@ const CartRoot = () => {
       },
       { duration: 0.3, ease: 'easeOut' },
     );
-    dispatch(removeItem(itemId));
+    dispatch(removeItem(item));
   };
 
   const gotoCart = async () => {
@@ -111,11 +118,11 @@ const CartRoot = () => {
                   </Box>
                   <Box className="flex flex-row justify-between">
                     <Button color="dark" size="compact-xs">
-                      <IconMinus height={16} />
+                      <IconMinus onClick={() => handleSubItem(details)} height={16} />
                     </Button>
-                    <Text>1</Text>
+                    <Text>{details.quantity}</Text>
                     <Button color="dark" size="compact-xs">
-                      <IconPlus height={16} />
+                      <IconPlus onClick={() => handleAddItem(details)} height={16} />
                     </Button>
                   </Box>
                 </Box>
@@ -124,7 +131,7 @@ const CartRoot = () => {
                     <Text className="text-md text-red 	font-bold">$ {details.price}</Text>
                     <Text className="text-sm text-dark-grey line-through">$ {details.price}</Text>
                   </Box>
-                  <IconTrash height={24} onClick={() => removeHandler(details._id)} />
+                  <IconTrash height={24} onClick={() => removeHandler(details)} />
                 </Box>
               </Box>
             </Box>

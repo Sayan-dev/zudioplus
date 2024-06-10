@@ -1,4 +1,6 @@
 import '@mantine/core/styles.css'; // Import Mantine styles
+import '@mantine/carousel/styles.css';
+
 import '../styles/globals.scss';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

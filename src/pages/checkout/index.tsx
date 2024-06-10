@@ -28,7 +28,7 @@ const CheckoutPage: NextPageWithLayout = () => {
       },
       {
         onSuccess: async () => {
-          router.push('/orders');
+          router.push('/');
         },
       },
     );
@@ -64,9 +64,11 @@ const CheckoutPage: NextPageWithLayout = () => {
               <Box className="flex flex-row justify-between">
                 <Box className="flex flex-col">
                   <Text>Estimated Total</Text>
-                  <Text>$156.00</Text>
+                  <Text>${cartData.total}</Text>
                 </Box>
-                <Box className="flex border-2 border-dark-grey px-5 items-center">14 items</Box>
+                <Box className="flex border-2 border-dark-grey px-5 items-center">
+                  {cartData.items.length} {cartData.items.length > 1 ? 'items' : 'item'}
+                </Box>
               </Box>
             </Box>
             <Box className="border-b-[1px] border-dark-grey pt-5 pb-2 mt-5">

@@ -14,8 +14,8 @@ const Hero = () => {
           <Box>
             <Image alt={products.data[0].name} src={products.data[0].image_url} />
             <Box className="py-5 flex flex-col items-center">
-              <Text className="text-lg font-semibold">LEANING IN</Text>
-              <Link className="text-xs underline underline-offset-4" href="/clothing">
+              <Text className="text-2xl font-semibold">LEANING IN</Text>
+              <Link className="text-md underline underline-offset-4" href="/clothing">
                 SHOP DRESSES
               </Link>
             </Box>
@@ -25,8 +25,8 @@ const Hero = () => {
               <Image alt={products.data[1].name} src={products.data[1].image_url} />
             )}
             <Box className="py-5 flex flex-col items-center">
-              <Text className="text-lg font-semibold">All Over Velvet</Text>
-              <Link className="text-xs underline underline-offset-4" href="/clothing">
+              <Text className="text-2xl font-semibold">All Over Velvet</Text>
+              <Link className="text-md underline underline-offset-4" href="/clothing">
                 Shop Back-In-Stock
               </Link>
             </Box>

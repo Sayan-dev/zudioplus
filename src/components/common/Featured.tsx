@@ -9,7 +9,7 @@ const Featured = () => {
 
   return (
     <Box>
-      <Text className="text-lg font-medium text-center py-5">FEATURED</Text>
+      <Text className="text-xl font-semibold text-center py-5">FEATURED</Text>
       <SimpleGrid cols={{ base: 2, md: 4 }}>
         {products.data &&
           products.data.map(item => (

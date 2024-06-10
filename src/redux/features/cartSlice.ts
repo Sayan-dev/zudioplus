@@ -4,11 +4,13 @@ import { IProduct } from '../../types';
 
 type CartState = {
   items: IProduct[];
+  total: number;
   open_drawer: boolean;
 };
 
 const initialState = {
   items: [],
+  total: 0,
   open_drawer: false,
 } as CartState;
 
@@ -20,9 +22,11 @@ export const cart = createSlice({
 
     addItem: (state, action: PayloadAction<IProduct>) => {
       const newItems = [...state.items];
-      newItems.push(action.payload);
+      newItems.push({ ...action.payload, quantity: 1 });
+      const newTotal = action.payload.price + state.total;
       return {
         ...state,
+        total: newTotal,
         items: newItems,
       };
     },
@@ -34,16 +38,50 @@ export const cart = createSlice({
       ...state,
       open_drawer: true,
     }),
-    removeItem: (state, payload: { payload: string }) => {
-      const newItems = [...state.items].filter(item => item._id !== payload.payload);
+    removeItem: (state, action: PayloadAction<IProduct>) => {
+      const newItems = [...state.items].filter(item => item._id !== action.payload._id);
+      const newTotal = state.total - action.payload.price;
 
       return {
         ...state,
+        total: newTotal,
         items: newItems,
+      };
+    },
+    addQuantity: (state, action: PayloadAction<IProduct>) => {
+      const items = [...state.items];
+      const itemIndex = items.findIndex(item => item._id === action.payload._id);
+      let newTotal = state.total;
+      if (itemIndex > -1) {
+        items[itemIndex] = { ...items[itemIndex], quantity: items[itemIndex].quantity + 1 };
+        newTotal += items[itemIndex].price;
+      }
+      return {
+        ...state,
+        total: newTotal,
+        items,
+      };
+    },
+    reduceQuantity: (state, action: PayloadAction<IProduct>) => {
+      const items = [...state.items];
+      const itemIndex = items.findIndex(item => item._id === action.payload._id);
+      let newTotal = state.total;
+
+      if (itemIndex > -1) {
+        if (items[itemIndex].quantity > 1) {
+          items[itemIndex] = { ...items[itemIndex], quantity: items[itemIndex].quantity - 1 };
+          newTotal -= items[itemIndex].price;
+        }
+      }
+      return {
+        ...state,
+        total: newTotal,
+        items,
       };
     },
   },
 });
 
-export const { reset, addItem, closeDrawer, openDrawer, removeItem } = cart.actions;
+export const { reset, addItem, closeDrawer, openDrawer, removeItem, addQuantity, reduceQuantity } =
+  cart.actions;
 export default cart.reducer;

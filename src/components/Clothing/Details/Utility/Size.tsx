@@ -1,31 +1,25 @@
 import { Box, Chip, Group } from '@mantine/core';
 import React, { useEffect } from 'react';
 
-import { selectSize } from '../../../../redux/features/itemSlice';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { RootState } from '../../../../redux/store';
 
 interface Props {
   size: string[];
-  data_selected_size: string;
+  selectSize: (size: string) => void;
+  selectedSize: string;
   className: string;
 }
 
-const Size = ({ size, data_selected_size, className }: Props) => {
-  const { selected_size } = useAppSelector((state: RootState) => state.item);
-  const dispatch = useAppDispatch();
-
+const Size = ({ size, selectedSize, selectSize, className }: Props) => {
   const handleSetValue = (val: string) => {
-    dispatch(selectSize(val));
+    selectSize(val);
   };
 
-  useEffect(() => {
-    dispatch(selectSize(data_selected_size));
-  }, []);
   return (
     <Box className={className}>
       <p className="mb-2">Size:</p>
-      <Chip.Group multiple={false} value={selected_size} onChange={handleSetValue}>
+      <Chip.Group multiple={false} value={selectedSize} onChange={handleSetValue}>
         <Group>
           {size.map(e => (
             <Chip variant="filled" radius="xs" value={e}>

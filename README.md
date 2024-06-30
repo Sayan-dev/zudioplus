@@ -21,4 +21,30 @@
 # Snapshots
 
 ## Home
-![Hero](./assets/hero.png)
+
+![Hero](./assets/Group_4.png)
+
+![Items](./assets/Group_10.png)
+
+![Featured](./assets/Group_9.png)
+
+
+## Clothing
+![Clothes](./assets/Group_5.png)
+
+![Details](./assets/Group_6.png)
+
+
+## Cart
+![Items](./assets/Group_2.png)
+
+![Items](./assets/Group_3.png)
+
+
+## Checkout
+![Checkout](./assets/Group_7.png)
+
+![Payment](./assets/Group_8.png)
+
+
+

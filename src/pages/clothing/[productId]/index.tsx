@@ -30,12 +30,12 @@ const ProductDetails: NextPageWithLayout<PageProps> = ({ query }) => {
         {product.data && (
           <>
             <Grid>
-              <Grid.Col span={{ xs: 12, md: 7 }}>
+              <Grid.Col span={{ xs: 12, md: 6 }}>
                 <Box ref={scope}>
                   {product.data.image_url && <DetailImages url={product.data.image_url} />}
                 </Box>
               </Grid.Col>
-              <Grid.Col span={{ xs: 12, md: 5 }}>
+              <Grid.Col span={{ xs: 12, md: 6 }}>
                 <Details details={product.data} />
               </Grid.Col>
             </Grid>

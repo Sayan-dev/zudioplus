@@ -1,10 +1,10 @@
 import { Box } from '@mantine/core';
 import React, { useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { RootState } from 'src/redux/store';
 import { useRouter } from 'next/router';
-import { addItem } from 'src/redux/features/cartSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { RootState } from '../../../redux/store';
+import { addItem } from '../../../redux/features/cartSlice';
 import Detail from './Detail';
 import ItemTitle from './Title';
 import { AddToBag, Size } from './Utility';
@@ -33,9 +33,9 @@ const Details = ({ details }: Props) => {
     router.push('/cart');
   };
   return (
-    <Box>
+    <Box className="h-full">
       <ItemTitle details={details} />
-      <Box className="flex flex-col md:flex-col-reverse">
+      <Box className="flex flex-col md:flex-col-reverse justify-between">
         <Box className="border border-b-background-light border-t-0 border-x-0 py-5">
           <Size
             className="mb-5"

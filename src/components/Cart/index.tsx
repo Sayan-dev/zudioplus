@@ -1,19 +1,17 @@
-import { Accordion, Box, Button, Image, Text } from '@mantine/core';
-import {
-  IconArrowBack,
-  IconCheck,
-  IconMinus,
-  IconPlus,
-  IconReload,
-  IconTrash,
-} from '@tabler/icons-react';
+import { Box, Text } from '@mantine/core';
+import { IconArrowBack, IconReload } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useAnimate } from 'framer-motion';
-import { IProduct } from 'src/types';
-import { addQuantity, reduceQuantity, removeItem } from '../../redux/features/cartSlice';
+import { IProduct } from '../../types';
+import {
+  addQuantity,
+  reduceQuantity,
+  removeAllItems,
+  removeItem,
+} from '../../redux/features/cartSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import Summary from './Summary';
@@ -21,7 +19,6 @@ import CartItem from '../common/CartItem';
 
 const CartRoot = () => {
   const [cartItemScope, animate] = useAnimate();
-  const [buttonScope, buttonScopeAnimate] = useAnimate();
   const [showIcon, setShowIcon] = useState(false);
   const cartDetails = useAppSelector((state: RootState) => state.cart);
   const router = useRouter();
@@ -47,22 +44,22 @@ const CartRoot = () => {
 
   const gotoCart = async () => {
     setShowIcon(true);
-    await buttonScopeAnimate(
-      buttonScope.current,
-      {
-        width: '2.75rem',
-        padding: 0,
-        borderRadius: '2.75rem',
-      },
-      { duration: 0.6, ease: 'easeInOut' },
-    );
+
     router.push('/checkout');
+  };
+
+  const handleRemoveAll = () => {
+    dispatch(removeAllItems());
   };
 
   return (
     <Box>
       <Text className="text-2xl font-semibold mb-6">Your Shopping Bag</Text>
-      <Summary buttonRef={buttonScope} gotoCart={gotoCart} showIcon={showIcon} />
+      <Summary
+        gotoCart={gotoCart}
+        showIcon={showIcon}
+        summary={{ subtotal: cartDetails.total, shippingPrice: 0, orderTotal: cartDetails.total }}
+      />
       <Box className="border-b-[1px] border-dark-grey">
         {cartDetails.items.length > 0 ? (
           cartDetails.items.map(details => (
@@ -81,13 +78,13 @@ const CartRoot = () => {
         )}
       </Box>
       <Box className="py-4 flex flex-row items-center">
-        <Text className="flex flex-row mr-2 items-center">
+        <Box className="flex flex-row mr-2 items-center">
           <IconReload color="blue" height={18} />
           <Text className="text-sm text-blue">Update Shopping Cart</Text>
-        </Text>
+        </Box>
         <Text>|</Text>
-        <Text className="ml-2">
-          <Text className="text-sm text-dark-grey">Clear Shopping Cart</Text>
+        <Text onClick={handleRemoveAll} className="text-sm text-red ml-2">
+          Clear Shopping Cart
         </Text>
       </Box>
       <Box className="py-4 flex flex-row items-center">

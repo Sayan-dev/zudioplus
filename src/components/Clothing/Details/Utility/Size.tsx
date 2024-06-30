@@ -1,8 +1,5 @@
 import { Box, Chip, Group } from '@mantine/core';
-import React, { useEffect } from 'react';
-
-import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
-import { RootState } from '../../../../redux/store';
+import React from 'react';
 
 interface Props {
   size: string[];

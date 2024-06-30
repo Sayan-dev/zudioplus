@@ -1,7 +1,8 @@
 import { Box, Button, Image, Text } from '@mantine/core';
 import { IconMinus, IconPlus, IconTrash } from '@tabler/icons-react';
 import React, { MutableRefObject } from 'react';
-import type { IProduct } from 'src/types';
+import type { IProduct } from '../../../types';
+import { getActualAmount } from '../../../utils';
 
 type CartItemProps = {
   details: IProduct;
@@ -19,7 +20,7 @@ const CartItem = ({
   removeHandler,
 }: CartItemProps) => (
   <Box ref={cartItemRef} key={details._id} className="flex flex-row mb-5">
-    <Box className="w-[30vw] mr-5">
+    <Box className="w-[30vw] md:w-[10vw] mr-5">
       <Image src={details.image_url} alt="Image" />
     </Box>
     <Box className="flex flex-row justify-between w-full">
@@ -41,8 +42,10 @@ const CartItem = ({
       </Box>
       <Box className="flex flex-col items-center justify-between pb-1">
         <Box>
-          <Text className="text-md text-red 	font-bold">$ {details.price}</Text>
-          <Text className="text-sm text-dark-grey line-through">$ {details.price}</Text>
+          <Text className="text-md text-red 	font-bold">$ {getActualAmount(details.price)}</Text>
+          <Text className="text-sm text-dark-grey line-through">
+            $ {getActualAmount(details.price)}
+          </Text>
         </Box>
         <IconTrash height={24} onClick={() => removeHandler(details)} />
       </Box>

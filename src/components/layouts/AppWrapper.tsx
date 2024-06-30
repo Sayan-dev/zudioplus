@@ -5,12 +5,12 @@ import Footer from './Footer';
 import Header from './Header';
 
 const AppWrapper = ({ children }: PropsWithChildren) => (
-  <Box className="max-w-7xl min-h-screen m-auto ">
+  <Box className="max-w-5xl min-h-screen m-auto ">
     <AppShell header={{ height: 80 }}>
-      <AppShell.Header className="max-w-7xl m-auto">
+      <AppShell.Header className="max-w-5xl m-auto">
         <Header />
       </AppShell.Header>
-      <AppShell.Main className="px-4 mt-4">{children}</AppShell.Main>
+      <AppShell.Main className="px-4 mt-4 max-w-5xl mx-auto">{children}</AppShell.Main>
       <Footer />
     </AppShell>
   </Box>

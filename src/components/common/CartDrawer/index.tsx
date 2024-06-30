@@ -1,23 +1,43 @@
 import { Accordion, Box, Button, Drawer, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useRef } from 'react';
 
-import ItemInfo from './ItemInfo';
-import { closeDrawer } from '../../../redux/features/cartSlice';
+import { useMediaQuery } from '@mantine/hooks';
+import { IProduct } from '../../../types';
+import { getActualAmount } from '../../../utils';
+import {
+  addQuantity,
+  closeDrawer,
+  reduceQuantity,
+  removeItem,
+} from '../../../redux/features/cartSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import Svgclose from '../../svg/Svgclose';
+import CartItem from '../CartItem';
 
 const CartDrawer = () => {
-  const { open_drawer, items } = useAppSelector((state: RootState) => state.cart);
+  const cartItemRef = useRef(null);
+  const { open_drawer, items, total } = useAppSelector((state: RootState) => state.cart);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
   };
+  const isMobile = useMediaQuery('(max-width: 450px)');
 
   const handleNavigateToCheckout = () => {
     router.push('/checkout');
+  };
+
+  const handleAddItem = (item: IProduct) => {
+    dispatch(addQuantity(item));
+  };
+  const handleSubItem = (item: IProduct) => {
+    dispatch(reduceQuantity(item));
+  };
+  const removeHandler = (item: IProduct) => {
+    dispatch(removeItem(item));
   };
 
   return (
@@ -29,7 +49,7 @@ const CartDrawer = () => {
       onClose={handleCloseDrawer}
       opened={open_drawer}
       position="right"
-      size="90vw"
+      size={isMobile ? '90vw' : '30vw'}
     >
       <Box className="flex flex-col items-stretch h-full">
         <Box>
@@ -42,11 +62,11 @@ const CartDrawer = () => {
           <Box className="py-5">
             <Box className="flex justify-between">
               <span>Subtotal: </span>
-              <span>$ 300.00 </span>
+              <span>$ {getActualAmount(total)} </span>
             </Box>
             <Box className="flex justify-between">
               <span>Shipping Price:</span>
-              <span>$0.00</span>
+              <span>$ {getActualAmount(0)}</span>
             </Box>
           </Box>
 
@@ -59,7 +79,13 @@ const CartDrawer = () => {
                 <Accordion.Panel>
                   <Box className="flex flex-col py-5">
                     {items.map(item => (
-                      <ItemInfo key={item._id} details={item} />
+                      <CartItem
+                        cartItemRef={cartItemRef}
+                        handleAddItem={handleAddItem}
+                        handleSubItem={handleSubItem}
+                        removeHandler={removeHandler}
+                        details={item}
+                      />
                     ))}
                   </Box>
                 </Accordion.Panel>

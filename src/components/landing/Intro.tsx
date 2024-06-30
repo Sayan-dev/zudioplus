@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@mantine/core';
+import { Box, Text } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 import Link from 'next/link';
@@ -18,7 +18,7 @@ const Intro = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
 
   return (
-    <Box className="border-b-[1px] border-b-faded-dark">
+    <Box className="">
       <Box className="flex ">
         <Carousel
           className="h-full "

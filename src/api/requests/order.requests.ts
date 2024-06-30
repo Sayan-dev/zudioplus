@@ -5,6 +5,8 @@ const BASE_URL = '/api/order';
 
 export type OrderRequest = {
   products: OrderItemRequest[];
+  paymentType: string;
+  shippingMethod: string;
   total: number;
   address: string;
 };

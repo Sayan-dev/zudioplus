@@ -12,6 +12,6 @@ export default function parseCookies(req: Request) {
 
 export const convertToPercentage = (data: number) => data;
 
-export const getActualAmount = (data: number) => parseFloat(`${data / 100}`).toFixed(0);
+export const getActualAmount = (data: number) => parseFloat(`${data / 100}`).toFixed(2);
 
 export const getServerAmount = (data: string) => parseInt(data, 10) * 100;

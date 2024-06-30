@@ -8,7 +8,7 @@ const Featured = () => {
   const products = useProducts({ featured: true });
 
   return (
-    <Box>
+    <Box className="md:py-5">
       <Text className="text-xl font-semibold text-center py-5">FEATURED</Text>
       <SimpleGrid cols={{ base: 2, md: 4 }}>
         {products.data &&

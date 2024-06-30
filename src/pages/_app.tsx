@@ -1,5 +1,6 @@
 import '@mantine/core/styles.css'; // Import Mantine styles
 import '@mantine/carousel/styles.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '../styles/globals.scss';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
@@ -7,8 +8,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import { CookiesProvider } from 'react-cookie';
-import { ToastContainer } from 'react-toastify';
 
+import ToastProvider from '../context/ToastProvider';
 import theme from '../lib/theme';
 import Providers from '../redux/provider';
 import { AppPropsWithLayout } from '../types';
@@ -49,20 +50,20 @@ const Participleplus = ({ Component, pageProps }: AppPropsWithLayout) => {
         <meta name="msapplication-TileColor" content="#050505" />
         <meta name="theme-color" content="#050505" />
       </Head>
-      <Providers>
-        <QueryClientProvider client={client}>
-          <CookiesProvider>
-            <ToastContainer />
-
-            <ColorSchemeScript defaultColorScheme="auto" />
-            <MantineProvider withGlobalClasses theme={theme}>
-              {getLayout(<Component {...pageProps} />)}
-              {/* <NotificationsProvider>
+      <ToastProvider>
+        <Providers>
+          <QueryClientProvider client={client}>
+            <CookiesProvider>
+              <ColorSchemeScript defaultColorScheme="auto" />
+              <MantineProvider withGlobalClasses theme={theme}>
+                {getLayout(<Component {...pageProps} />)}
+                {/* <NotificationsProvider>
                   </NotificationsProvider> */}
-            </MantineProvider>
-          </CookiesProvider>
-        </QueryClientProvider>
-      </Providers>
+              </MantineProvider>
+            </CookiesProvider>
+          </QueryClientProvider>
+        </Providers>
+      </ToastProvider>
     </>
   );
 };

@@ -2,6 +2,7 @@ import { Box, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import React from 'react';
 
+import Link from 'next/link';
 import { RootState } from '../../redux/store';
 import SideBar from './header/SideBar';
 import { closeAppDrawer, openAppDrawer } from '../../redux/features/appSlice';
@@ -49,7 +50,9 @@ const Header = () => {
         {isMobile && (
           <SideBar navLinks={Links} open={appState.open_app_drawer} onClose={handleCloseSideBar} />
         )}
-        <Text className="font-bold text-2xl md:text-3xl">Zudio+</Text>
+        <Text className="font-bold text-2xl md:text-3xl">
+          <Link href="/">Zudio+</Link>
+        </Text>
         <Box
           className="flex flex-row md:border :mdborder-secondary px-4 py-2"
           onClick={handleOpenCartDrawer}

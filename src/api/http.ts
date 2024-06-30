@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { displayToast } from '../utils/toast';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 /**
@@ -51,7 +51,7 @@ type ResponseError = {
 const handleError = (httpStatusCode: number, response: ResponseError) => {
   if (!/^(2|3)[0-9][0-9]$/.test(String(httpStatusCode))) {
     if (httpStatusCode === 401) {
-      toast('Something went wrong');
+      displayToast('error', 'Something went wrong');
     }
 
     throw new ApiResponseError(response?.message || 'Something went wrong!', httpStatusCode ?? 501);

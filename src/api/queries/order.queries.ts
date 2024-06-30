@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+import { displayToast } from '../../utils/toast';
 import { ApiResponseError } from '../http';
 import { OrderRequest, createOrder, getAllOrders } from '../requests/order.requests';
 
@@ -10,7 +10,7 @@ export const useCreateOrder = () =>
       return res.data;
     },
     onError: err => {
-      toast(err?.message || 'Something went wrong');
+      displayToast('error', err?.message || 'Something went wrong');
     },
   });
 

@@ -2,7 +2,7 @@ import { Stepper, rem } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconMailOpened, IconUserCheck } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { displayToast } from '../../utils/toast';
 import { RootState } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks';
 import { useCreateOrder } from '../../api/queries/order.queries';
@@ -62,7 +62,7 @@ const CheckoutRoot = () => {
       },
       {
         onSuccess: async () => {
-          toast('Your order has been booked');
+          displayToast('success', 'Your order has been booked');
           // router.push('/');
         },
       },

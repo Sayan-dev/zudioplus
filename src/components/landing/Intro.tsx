@@ -1,21 +1,50 @@
-import { Box, Text } from '@mantine/core';
+import { Box, Button, Text } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 import Link from 'next/link';
 import React, { useRef } from 'react';
 import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
+import { useMediaQuery } from '@mantine/hooks';
+import { useRouter } from 'next/router';
 import Banner1 from '../../assets/background.png';
 import Banner2 from '../../assets/background2.png';
 
-const IntroBox = () => (
+const IntroMobileBox = () => (
   <Box className="absolute top-[35%] right-[25%]">
     <Text className="font-bold text-white text-2xl">New In</Text>
   </Box>
 );
 
+const IntroBox = () => {
+  const router = useRouter();
+  const navigateToCatalog = () => {
+    router.push('/clothing');
+  };
+  return (
+    <Box className="absolute top-[35%] right-[15%] w-[30%] flex flex-col items-center ">
+      <Text className="font-semibold text-white text-4xl text-center">Elevate Your Wardrobe</Text>
+      <Text className="font-semibold text-white text-sm text-center py-10">
+        Shop Our Trendy Fashion
+      </Text>
+      <Button
+        onClick={navigateToCatalog}
+        variant="filled"
+        color="dark"
+        className="px-10 py-2 h-full rounded-md"
+        classNames={{
+          label: 'py-2',
+        }}
+      >
+        Go To Catalog
+      </Button>
+    </Box>
+  );
+};
+
 const Intro = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
+  const isMobile = useMediaQuery('(max-width: 450px)');
 
   return (
     <Box className="">
@@ -36,15 +65,15 @@ const Intro = () => {
         >
           <Carousel.Slide>
             <Image src={Banner1} alt="banner1" />
-            <IntroBox />
+            {isMobile ? <IntroMobileBox /> : <IntroBox />}
           </Carousel.Slide>
           <Carousel.Slide>
             <Image src={Banner2} alt="banner2" />
-            <IntroBox />
+            {isMobile ? <IntroMobileBox /> : <IntroBox />}
           </Carousel.Slide>
           <Carousel.Slide>
             <Image src={Banner1} alt="banner3" />
-            <IntroBox />
+            {isMobile ? <IntroMobileBox /> : <IntroBox />}
           </Carousel.Slide>
         </Carousel>
       </Box>
